@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        input {
+            width: 200px;
+        }
+        button {
+            background-color: purple;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #resultado {
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de gastos escolares</h1>
+    <input type="number" id="pasaje" placeholder="Pasaje diario (MXN)">
+    <input type="number" id="comida" placeholder="Comida diaria (MXN)">
+    <input type="number" id="dias" placeholder="Días por semana">
+    <input type="number" id="presupuesto" placeholder="Presupuesto mensual (MXN)">
+    <br>
+    <button onclick="calculadoraGastos()">Calcular</button>
+    <div id="resultado"></div>
+
+    <script>
+        function calculadoraGastos() {
+            let pasaje = parseFloat(document.getElementById("pasaje").value);
+            let comida = parseFloat(document.getElementById("comida").value);
+            let dias = parseInt(document.getElementById("dias").value);
+            let presupuesto = parseFloat(document.getElementById("presupuesto").value);
+
+            if (isNaN(pasaje) || isNaN(comida) || isNaN(dias)) {
+                document.getElementById("resultado").textContent = "Rellena bien todos los campos";
+                return;
+            }
+        
+
+            let totalDia = pasaje * 2 + comida;
+            let totalSemana = totalDia * dias;
+            let totalMes = totalSemana * 4;
+            let diferencia = presupuesto - totalMes;
+            let mensajePresupuesto = "";
+
+            if (isNaN(presupuesto)){
+                mensajePresupuesto = "No ingresaste tu presupuesto mensual prro";
+            }else if (diferencia >= 0){
+                mensajePresupuesto = `Te sobran ${diferencia.toFixed(2)} este mes`;
+            }else{
+                mensajePresupuesto = `Te faltan ${Math.abs(diferencia).toFixed(2)} este mes`;
+            }
+        
+            document.getElementById("resultado").innerHTML =
+                ` Gasto diario aprox: $${totalDia.toFixed(2)} <br>
+                  Gasto semanal: $${totalSemana.toFixed(2)} <br>
+                  Gasto mensual aprox: $${totalMes.toFixed(2)} <br><br>
+                 ${totalMes > 1000 ? " Ya casi no hay money" : " Vas bien pero pues hazlo mejor."}<br><br>
+                 ${mensajePresupuesto}`;
+        }
+    </script>
+</body>
+</html>
